@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#1b5e20" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="green" />
+  <meta name="apple-mobile-web-app-title" content="ATHARVA AGRO" />
+
+  <title>🌾 ATHARVA AGRO - AI Smart Farming</title>
+  <meta name="description" content="AI-Powered agricultural marketplace with crop scanning via camera, farm management, soil testing & fertilizer advisory"/>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; width: 100%; }
+    body {
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      line-height: 1.6;
+      color: #2c3e50;
+      background: linear-gradient(135deg,#f5f7fa 0%,#e8f4f8 100%);
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(135deg,#1b5e20 0%,#2e7d32 100%);
+      color: #fff;
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    nav {
+      max-width: 1400px;
+      margin: 0 auto;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding: 0 20px;
+    }
+    .logo { font-size:1.6rem; font-weight:700; display:flex; gap:8px; align-items:center; }
+    nav ul { display:flex; gap:1.5rem; list-style:none; align-items:center; flex-wrap:wrap; }
+    nav a { color:#fff; text-decoration:none; font-weight:500; transition:all .25s; font-size:0.9rem; }
+    nav a:hover { color:#81c784; transform:translateY(-2px); }
+
+    /* cart button */
+    .cart-btn { background:transparent; border:1px solid rgba(255,255,255,0.12); color:#fff; padding:8px 12px; border-radius:8px; display:flex; gap:8px; align-items:center; cursor:pointer; font-weight:700; }
+    .cart-badge { background:#ff6f00; color:#fff; padding:2px 8px; border-radius:999px; font-weight:900; font-size:0.85rem; }
+
+    /* Auth buttons */
+    .auth-btns { display:flex; gap:10px; align-items:center; }
+    .auth-btn { padding:8px 16px; border:2px solid #fff; background:transparent; color:#fff; border-radius:6px; cursor:pointer; font-weight:700; transition:all .3s; }
+    .auth-btn:hover { background:#fff; color:#1b5e20; }
+    .auth-btn.signup { background:#81c784; border-color:#81c784; color:#fff; }
+    .auth-btn.signup:hover { background:#fff; color:#1b5e20; }
+
+    .container { max-width:1400px; margin:0 auto; padding: 15px 20px; }
+
+    .tabs { display:flex; gap:8px; margin:20px 0; flex-wrap:wrap; }
+    .tab-btn { padding:8px 16px; background:#fff; border:2px solid #ddd; border-radius:8px; cursor:pointer; font-weight:700; font-size:0.85rem; }
+    .tab-btn.active { background:#1b5e20; color:#fff; border-color:#1b5e20; }
+    .tab-content { display:none; animation:fadeIn .25s ease; }
+    .tab-content.active { display:block; }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+    .grid { display:grid; gap:15px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+    .product-card { background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,0.06); display:flex; flex-direction:column; transition:all 0.3s; }
+    .product-card:hover { transform:translateY(-4px); box-shadow:0 12px 28px rgba(0,0,0,0.12); }
+    .product-image { height:180px; overflow:hidden; background:#c8e6c9; display:flex; align-items:center; justify-content:center; }
+    .product-image img { width:100%; height:100%; object-fit:cover; display:block; }
+    .product-info { padding:12px; display:flex; flex-direction:column; gap:6px; flex-grow:1; }
+    .product-name { font-weight:800; color:#1b5e20; font-size:0.95rem; }
+    .product-price { font-weight:800; color:#2e7d32; font-size:1rem; }
+    .product-buttons { display:flex; gap:6px; margin-top:auto; justify-content:space-between; }
+    .btn { background:#1b5e20; color:#fff; padding:8px 14px; border-radius:8px; border:none; cursor:pointer; font-weight:700; font-size:0.9rem; transition:all 0.3s; }
+    .btn:hover { background:#0d3d1f; transform:scale(1.03); }
+    .btn-secondary { background:#2e7d32; color:#fff; padding:6px 12px; border-radius:6px; border:none; cursor:pointer; font-weight:600; font-size:0.85rem; }
+    .btn-buy { flex:1; background:#ff6f00; color:#fff; padding:8px; border-radius:6px; border:none; cursor:pointer; font-size:0.85rem; font-weight:700; }
+    .btn-contact { flex:1; background:#fff; color:#2e7d32; border:2px solid #2e7d32; padding:8px; border-radius:6px; cursor:pointer; font-size:0.85rem; font-weight:700; }
+
+    .section { margin:24px 0; padding:18px; background:#fff; border-radius:14px; box-shadow:0 8px 28px rgba(0,0,0,0.06); }
+    .section h2 { text-align:center; color:#1b5e20; margin-bottom:16px; font-size:1.3rem; }
+
+    .hero { background:linear-gradient(135deg,#1b5e20,#2e7d32); color:#fff; padding:40px 20px; text-align:center; border-radius:12px; }
+    .hero h1 { font-size:2rem; font-weight:800; margin-bottom:8px; }
+    .hero p { font-size:0.95rem; opacity:0.95; }
+
+    .feature-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; margin-top:10px; }
+    .feature-box { background:#fff; padding:12px; border-radius:8px; border-left:4px solid #1b5e20; cursor:pointer; transition:all 0.3s; border:2px solid transparent; }
+    .feature-box:hover { background:#e8f5e9; border-left:4px solid #ff6f00; border:2px solid #1b5e20; transform:translateY(-2px); box-shadow:0 6px 16px rgba(27,94,32,0.1); }
+    .feature-box strong { color:#1b5e20; display:block; margin-bottom:4px; }
+
+    .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; align-items:center; justify-content:center; }
+    .modal.active { display:flex; }
+    .modal-content { background:#fff; padding:30px; border-radius:12px; max-width:700px; width:95%; max-height:85vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+    .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; }
+    .modal-header h2 { color:#1b5e20; font-size:1.4rem; }
+    .modal-close { background:none; border:none; font-size:1.5rem; cursor:pointer; color:#666; }
+    .modal-close:hover { color:#1b5e20; }
+    .modal-body { color:#333; line-height:1.8; font-size:0.95rem; }
+    .modal-body h3 { color:#2e7d32; margin-top:12px; margin-bottom:8px; font-size:1rem; }
+    .modal-body ul { margin-left:20px; margin-bottom:10px; }
+    .modal-body li { margin-bottom:6px; }
+
+    .form-group { margin-bottom:15px; }
+    .form-group label { display:block; margin-bottom:6px; color:#1b5e20; font-weight:700; }
+    .form-group input, .form-group select { width:100%; padding:10px; border:1px solid #ddd; border-radius:6px; font-family:inherit; }
+    .form-group input:focus, .form-group select:focus { outline:none; border-color:#1b5e20; box-shadow:0 0 0 3px rgba(27,94,32,0.1); }
+
+    .auth-tabs { display:flex; gap:10px; margin-bottom:20px; }
+    .auth-tab { padding:10px 20px; background:#e8f5e9; border:none; cursor:pointer; font-weight:700; border-radius:6px; color:#1b5e20; }
+    .auth-tab.active { background:#1b5e20; color:#fff; }
+
+    .horizontal-tabs { display:flex; gap:8px; overflow-x:auto; padding:10px 0; flex-wrap:nowrap; }
+    .horizontal-tabs button { padding:10px 18px; background:#fff; border:2px solid #ddd; border-radius:8px; cursor:pointer; font-weight:700; font-size:0.9rem; white-space:nowrap; flex-shrink:0; transition:all 0.3s; }
+    .horizontal-tabs button.active { background:#1b5e20; color:#fff; border-color:#1b5e20; }
+    .horizontal-tabs button:hover { border-color:#1b5e20; color:#1b5e20; }
+
+    .farm-content { background:#f9f9f9; padding:20px; border-radius:10px; margin-top:15px; }
+
+    footer { background:linear-gradient(135deg,#1b5e20,#2e7d32); color:#fff; padding:30px 20px; margin-top:30px; }
+    .footer-content { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:15px; }
+    footer h3 { font-size:0.95rem; }
+    footer p { font-size:0.85rem; }
+
+    .cart-list { width:100%; border-collapse:collapse; }
+    .cart-list th, .cart-list td { text-align:left; padding:8px; border-bottom:1px solid #eee; }
+    .cart-actions { display:flex; gap:8px; align-items:center; }
+    .small { font-size:0.85rem; color:#666; }
+    @media (max-width:768px) {
+      .logo { font-size:1.3rem; }
+      nav ul { gap:0.8rem; }
+      .section { padding:12px; margin:15px 0; }
+      .section h2 { font-size:1.1rem; }
+      .container { padding:10px 12px; }
+      .horizontal-tabs { gap:6px; }
+      .horizontal-tabs button { padding:8px 14px; font-size:0.8rem; }
+      .auth-btns { flex-direction:column; gap:5px; }
+      .auth-btn { width:100%; }
+    }
+
+    @media (max-width:480px) {
+      body { font-size:14px; }
+      header { padding:0.6rem 0; }
+      nav { padding:0 10px; flex-direction:column; gap:8px; }
+      .logo { font-size:1.1rem; }
+      nav ul { justify-content:center; }
+      .hero { padding:30px 15px; }
+      .hero h1 { font-size:1.4rem; }
+      .hero p { font-size:0.85rem; }
+      .grid { grid-template-columns:1fr; }
+      .tabs { flex-direction:column; }
+      .tab-btn { width:100%; }
+      .feature-grid { grid-template-columns:1fr; }
+      .horizontal-tabs button { padding:8px 12px; font-size:0.75rem; }
+      .auth-tabs { flex-direction:column; }
+      .auth-tab { width:100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">🌾 ATHARVA AGRO</div>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#farm-app">Farm</a></li>
+        <li><a href="#market">🛒 Market</a></li>
+      </ul>
+      <div class="auth-btns">
+        <button class="auth-btn" onclick="openAuthModal('login')">Login</button>
+        <button class="auth-btn signup" onclick="openAuthModal('signup')">Sign Up</button>
+        <button class="cart-btn" onclick="openCart()" title="Open cart">🛒 Cart <span id="cartCount" class="cart-badge">0</span></button>
+      </div>
+    </nav>
+  </header>
+
+  <section id="home" class="hero container" style="margin-top:20px;">
+    <h1>🌾 ATHARVA AGRO</h1>
+    <p>Smart Farming • AI Crop Scanner • Buy Fresh Fruits, Vegetables, Crops, Fertilizers & Pesticides Online 🛒</p>
+  </section>
+
+  <main class="container">
+    <!-- Farm App Section - Horizontal Tabs -->
+    <section id="farm-app" class="section">
+      <h2>📱 Smart Farm Management + AI Crop Scanner</h2>
+      
+      <div class="horizontal-tabs">
+        <button class="active" onclick="switchFarmTab(event,'farm-register')">🏡 Register Farm</button>
+        <button onclick="switchFarmTab(event,'ai-crop-camera')">📷 Scan Crop</button>
+        <button onclick="switchFarmTab(event,'ai-crop-scan')">🤖 AI Advisor</button>
+        <button onclick="switchFarmTab(event,'soil-test')">🧪 Soil Test</button>
+      </div>
+
+      <div class="farm-content">
+        <div id="farm-register" class="farm-tab active">
+          <h3 style="color:#1b5e20; margin-bottom:15px;">Register Your Farm</h3>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px;">
+            <div><label>Farm Name</label><input id="farmName" type="text" placeholder="Green Valley Farm" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ddd;"></div>
+            <div><label>Location</label><input id="farmLocation" type="text" placeholder="Village / City" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ddd;"></div>
+            <div><label>Farm Size (Acres)</label><input id="farmSize" type="number" step="0.1" placeholder="5.5" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ddd;"></div>
+            <div><label>Soil Type</label><select id="soilType" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ddd;"><option>Select</option><option>Loamy</option><option>Clay</option><option>Sandy</option></select></div>
+          </div>
+          <div style="margin-top:10px;"><button class="btn" onclick="registerFarm()">✅ Register Farm</button></div>
+          <div id="farmStatus" style="margin-top:10px; color:#1b5e20; font-weight:700;"></div>
+        </div>
+
+        <div id="ai-crop-camera" class="farm-tab" style="display:none;">
+          <h3 style="color:#1b5e20; margin-bottom:15px;">📷 Scan Crop with Camera</h3>
+          <p style="color:#666; margin-bottom:12px;">Point camera at the crop leaf or plant and let AI analyze for diseases, pests & health status</p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+            <button class="btn" onclick="startCameraStream()">📷 Start Camera</button>
+            <button class="btn-secondary" onclick="capturePhotoFromCamera()">📸 Capture Photo</button>
+            <button class="btn" onclick="stopCameraStream()">❌ Stop Camera</button>
+          </div>
+          <div id="cameraContainer" style="display:none; text-align:center; margin:15px 0;">
+            <video id="cameraVideo" playsinline autoplay style="width:100%; max-width:500px; border-radius:8px;"></video>
+            <canvas id="captureCanvas" style="display:none;"></canvas>
+          </div>
+          <div id="capturedImageContainer" style="display:none; text-align:center; margin:15px 0;">
+            <p style="color:#2e7d32; font-weight:700; margin-bottom:10px;">✅ Photo Captured</p>
+            <img id="capturedImage" src="" alt="Captured crop" style="width:100%; max-width:400px; border-radius:8px;"/>
+            <div style="margin-top:10px;">
+              <button class="btn" onclick="analyzeCapturedImage()">🤖 Analyze</button>
+              <button class="btn-secondary" onclick="discardImage()" style="margin-left:8px;">🗑️ Retake</button>
+            </div>
+          </div>
+          <div id="cameraAnalysisResult" style="margin-top:12px;"></div>
+        </div>
+
+        <div id="ai-crop-scan" class="farm-tab" style="display:none;">
+          <h3 style="color:#1b5e20; margin-bottom:15px;">🤖 AI Farm Advisor</h3>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px;">
+            <div><label>Select Crop</label><select id="aiCropSelect" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ddd;"><option>Select Crop</option><option>Wheat</option><option>Rice</option><option>Corn</option><option>Potato</option><option>Tomato</option><option>Carrot</option></select></div>
+            <div><label>Days Since Planting</label><input id="aiDaysSincePlanting" type="number" min="0" placeholder="30" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ddd;"></div>
+            <div><label>Issue</label><select id="aiCropIssue" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ddd;"><option>Select</option><option>Healthy Growth</option><option>Yellowing Leaves</option><option>Pest Damage</option><option>Poor Growth</option></select></div>
+          </div>
+          <div style="margin-top:10px;"><button class="btn" onclick="scanCropWithAI()">🤖 Get AI Advice</button></div>
+          <div id="aiScanResult" style="margin-top:10px;"></div>
+        </div>
+
+        <div id="soil-test" class="farm-tab" style="display:none;">
+          <h3 style="color:#1b5e20; margin-bottom:15px;">🧪 Soil pH Testing</h3>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px;">
+            <div><label>Soil pH Level</label><input id="soilPH" type="number" step="0.1" placeholder="6.5" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ddd;"></div>
+            <div><label>Select Crop</label><select id="phCrop" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ddd;"><option>Select Crop</option><option>Wheat</option><option>Rice</option><option>Tomato</option><option>Potato</option></select></div>
+            <div><label>Nitrogen (kg/ha)</label><input id="soilN" type="number" placeholder="40" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ddd;"></div>
+          </div>
+          <div style="margin-top:10px;"><button class="btn" onclick="soilTestRecommend()">🔬 Analyze & Get Recommendations</button></div>
+          <div id="soilRecommendation" style="margin-top:15px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Marketplace Section -->
+    <section id="market" class="section">
+      <h2>🛒 Marketplace — Buy Products</h2>
+      <p style="text-align:center; color:#666; margin-bottom:15px;">Buy fresh produce, seeds, fertilizers & pesticides. Use "Add to Cart" to build an order or "Contact" to message seller</p>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showMarket('fruits', this)">🍎 Fruits</button>
+        <button class="tab-btn" onclick="showMarket('vegetables', this)">🥬 Vegetables</button>
+        <button class="tab-btn" onclick="showMarket('crops', this)">🌾 Crops</button>
+        <button class="tab-btn" onclick="showMarket('fertilizers', this)">🧪 Fertilizers</button>
+        <button class="tab-btn" onclick="showMarket('pesticides', this)">🛡️ Pesticides</button>
+      </div>
+
+      <!-- Fruits -->
+      <div id="fruits" class="market-grid tab-content active">
+        <div class="grid">
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23fff8e1' width='400' height='300'/><ellipse cx='200' cy='140' rx='70' ry='70' fill='%23ffb300'/><path d='M200 70 q10 -30 40 -30' fill='%231b5e20'/><text x='200' y='270' font-size='22' fill='%231b5e20' text-anchor='middle'>Mango</text></svg>" alt="Mango"/></div>
+            <div class="product-info">
+              <div class="product-name">Mango (Aam)</div>
+              <div style="font-size:0.85rem; color:#666;">Fresh, sweet mangoes | 1 kg</div>
+              <div class="product-price">120</div>
+              <div class="product-buttons">
+                <div style="flex:1"><button class="btn-buy" onclick="buyNow('Mango',120)">💳 Buy Now</button></div>
+                <div style="width:120px;" class="right-actions">
+                  <button class="btn-secondary" onclick="contactSeller('Mango')">📱 Contact</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23fffaf0' width='400' height='300'/><ellipse cx='200' cy='140' rx='90' ry='60' fill='%23fbc02d'/><text x='200' y='270' font-size='22' fill='%231b5e20' text-anchor='middle'>Banana</text></svg>" alt="Banana"/></div>
+            <div class="product-info">
+              <div class="product-name">Banana</div>
+              <div style="font-size:0.85rem; color:#666;">Ripe yellow bananas | 1 dozen</div>
+              <div class="product-price">60</div>
+              <div class="product-buttons">
+                <div style="flex:1"><button class="btn-buy" onclick="buyNow('Banana',60)">💳 Buy Now</button></div>
+                <div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Banana')">📱 Contact</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23fff0f8' width='400' height='300'/><circle cx='200' cy='140' r='60' fill='%23039be5'/><text x='200' y='270' font-size='22' fill='%231b5e20' text-anchor='middle'>Apple</text></svg>" alt="Apple"/></div>
+            <div class="product-info">
+              <div class="product-name">Apple</div>
+              <div style="font-size:0.85rem; color:#666;">Red & crisp apples | 1 kg</div>
+              <div class="product-price">150</div>
+              <div class="product-buttons">
+                <div style="flex:1"><button class="btn-buy" onclick="buyNow('Apple',150)">💳 Buy Now</button></div>
+                <div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Apple')">📱 Contact</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23fff0f0' width='400' height='300'/><circle cx='200' cy='120' r='50' fill='%23e91e63'/><text x='200' y='270' font-size='20' fill='%231b5e20' text-anchor='middle'>Strawberry</text></svg>" alt="Strawberry"/></div>
+            <div class="product-info">
+              <div class="product-name">Strawberry</div>
+              <div style="font-size:0.85rem; color:#666;">Fresh red berries | 250 g</div>
+              <div class="product-price">90</div>
+              <div class="product-buttons">
+                <div style="flex:1"><button class="btn-buy" onclick="buyNow('Strawberry',90)">💳 Buy Now</button></div>
+                <div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Strawberry')">📱 Contact</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vegetables -->
+      <div id="vegetables" class="market-grid tab-content">
+        <div class="grid">
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23fff0f0' width='400' height='300'/><circle cx='200' cy='140' r='70' fill='%23e53935'/><text x='200' y='270' font-size='22' fill='%231b5e20' text-anchor='middle'>Tomato</text></svg>" alt="Tomato"/></div>
+            <div class="product-info"><div class="product-name">Tomato</div><div style="font-size:0.85rem; color:#666;">Fresh red tomatoes | 1 kg</div><div class="product-price">40</div><div class="product-buttons"><div style="flex:1"><button class="btn-buy" onclick="buyNow('Tomato',40)">💳 Buy Now</button></div><div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Tomato')">📱 Contact</button></div></div></div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23fff5f0' width='400' height='300'/><circle cx='180' cy='130' r='50' fill='%23ff8a65'/><circle cx='230' cy='110' r='20' fill='%23ff7043'/><text x='200' y='270' font-size='22' fill='%231b5e20' text-anchor='middle'>Potato</text></svg>" alt="Potato"/></div>
+            <div class="product-info"><div class="product-name">Potato</div><div style="font-size:0.85rem; color:#666;">Fresh potatoes | 5 kg</div><div class="product-price">80</div><div class="product-buttons"><div style="flex:1"><button class="btn-buy" onclick="buyNow('Potato',80)">💳 Buy Now</button></div><div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Potato')">📱 Contact</button></div></div></div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23fff7f0' width='400' height='300'/><circle cx='200' cy='130' r='55' fill='%23ffd54f'/><text x='200' y='270' font-size='22' fill='%231b5e20' text-anchor='middle'>Onion</text></svg>" alt="Onion"/></div>
+            <div class="product-info"><div class="product-name">Onion</div><div style="font-size:0.85rem; color:#666;">Fresh yellow onions | 1 kg</div><div class="product-price">35</div><div class="product-buttons"><div style="flex:1"><button class="btn-buy" onclick="buyNow('Onion',35)">💳 Buy Now</button></div><div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Onion')">📱 Contact</button></div></div></div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23f0fff6' width='400' height='300'/><path d='M120 130 q60 -60 160 0' fill='%234caf50'/><text x='200' y='270' font-size='22' fill='%231b5e20' text-anchor='middle'>Cabbage</text></svg>" alt="Cabbage"/></div>
+            <div class="product-info"><div class="product-name">Cabbage</div><div style="font-size:0.85rem; color:#666;">Fresh green cabbage | 1 head</div><div class="product-price">25</div><div class="product-buttons"><div style="flex:1"><button class="btn-buy" onclick="buyNow('Cabbage',25)">💳 Buy Now</button></div><div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Cabbage')">📱 Contact</button></div></div></div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23f0fff4' width='400' height='300'/><path d='M120 120 q80 -80 160 0' fill='%234caf50'/><text x='200' y='270' font-size='22' fill='%231b5e20' text-anchor='middle'>Spinach</text></svg>" alt="Spinach"/></div>
+            <div class="product-info"><div class="product-name">Spinach</div><div style="font-size:0.85rem; color:#666;">Fresh leafy spinach | 1 bunch</div><div class="product-price">20</div><div class="product-buttons"><div style="flex:1"><button class="btn-buy" onclick="buyNow('Spinach',20)">💳 Buy Now</button></div><div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Spinach')">📱 Contact</button></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Crops -->
+      <div id="crops" class="market-grid tab-content">
+        <div class="grid">
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23fffef0' width='400' height='300'/><path d='M60 200 q140 -200 280 0' fill='%234caf50'/><text x='200' y='270' font-size='24' fill='%231b5e20' text-anchor='middle'>Wheat</text></svg>" alt="Wheat"/></div>
+            <div class="product-info"><div class="product-name">Wheat</div><div style="font-size:0.85rem; color:#666;">Premium wheat grain | per quintal</div><div class="product-price">2200</div><div class="product-buttons"><div style="flex:1"><button class="btn-buy" onclick="buyNow('Wheat',2200)">💳 Buy Now</button></div><div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Wheat')">📱 Contact</button></div></div></div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23fffaf0' width='400' height='300'/><path d='M80 200 q120 -160 240 0' fill='%23ffb74d'/><text x='200' y='270' font-size='24' fill='%231b5e20' text-anchor='middle'>Rice</text></svg>" alt="Rice"/></div>
+            <div class="product-info"><div class="product-name">Rice</div><div style="font-size:0.85rem; color:#666;">Quality basmati rice | per quintal</div><div class="product-price">2800</div><div class="product-buttons"><div style="flex:1"><button class="btn-buy" onclick="buyNow('Rice',2800)">💳 Buy Now</button></div><div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Rice')">📱 Contact</button></div></div></div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23fff8f0' width='400' height='300'/><path d='M60 200 q140 -180 280 0' fill='%23aed581'/><text x='200' y='270' font-size='24' fill='%231b5e20' text-anchor='middle'>Maize</text></svg>" alt="Maize"/></div>
+            <div class="product-info"><div class="product-name">Maize</div><div style="font-size:0.85rem; color:#666;">Quality corn / maize | per quintal</div><div class="product-price">1900</div><div class="product-buttons"><div style="flex:1"><button class="btn-buy" onclick="buyNow('Maize',1900)">💳 Buy Now</button></div><div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Maize')">📱 Contact</button></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fertilizers -->
+      <div id="fertilizers" class="market-grid tab-content">
+        <div class="grid">
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23fff7e6' width='400' height='300'/><rect x='110' y='60' width='180' height='160' rx='12' fill='%23fff3e0' stroke='%231b5e20' stroke-width='3'/><text x='200' y='180' font-size='28' fill='%231b5e20' text-anchor='middle'>Urea</text></svg>" alt="Urea"/></div>
+            <div class="product-info"><div class="product-name">Urea (46% N)</div><div style="font-size:0.85rem; color:#666;">Nitrogen fertilizer | 50 kg</div><div class="product-price">850</div><div class="product-buttons"><div style="flex:1"><button class="btn-buy" onclick="buyNow('Urea',850)">💳 Buy Now</button></div><div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Urea')">📱 Contact</button></div></div></div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23f0fff0' width='400' height='300'/><rect x='110' y='60' width='180' height='160' rx='12' fill='%23e8f5e9' stroke='%231b5e20' stroke-width='3'/><text x='200' y='180' font-size='26' fill='%231b5e20' text-anchor='middle'>DAP</text></svg>" alt="DAP"/></div>
+            <div class="product-info"><div class="product-name">DAP (18-46-0)</div><div style="font-size:0.85rem; color:#666;">Phosphate fertilizer | 50 kg</div><div class="product-price">1400</div><div class="product-buttons"><div style="flex:1"><button class="btn-buy" onclick="buyNow('DAP',1400)">💳 Buy Now</button></div><div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('DAP')">📱 Contact</button></div></div></div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23fff8f0' width='400' height='300'/><rect x='110' y='60' width='180' height='160' rx='12' fill='%23fff0f0' stroke='%231b5e20' stroke-width='3'/><text x='200' y='180' font-size='24' fill='%231b5e20' text-anchor='middle'>KCl</text></svg>" alt="Potash"/></div>
+            <div class="product-info"><div class="product-name">Potash (KCl)</div><div style="font-size:0.85rem; color:#666;">Potassium chloride | 50 kg</div><div class="product-price">950</div><div class="product-buttons"><div style="flex:1"><button class="btn-buy" onclick="buyNow('Potash',950)">💳 Buy Now</button></div><div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Potash')">📱 Contact</button></div></div></div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23f7fff0' width='400' height='300'/><rect x='110' y='60' width='180' height='160' rx='12' fill='%23e8fbe8' stroke='%231b5e20' stroke-width='3'/><text x='200' y='180' font-size='20' fill='%231b5e20' text-anchor='middle'>Compost</text></svg>" alt="Compost"/></div>
+            <div class="product-info"><div class="product-name">Organic Compost</div><div style="font-size:0.85rem; color:#666;">Natural soil enricher | 50 kg</div><div class="product-price">400</div><div class="product-buttons"><div style="flex:1"><button class="btn-buy" onclick="buyNow('Compost',400)">💳 Buy Now</button></div><div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Compost')">📱 Contact</button></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pesticides -->
+      <div id="pesticides" class="market-grid tab-content">
+        <div class="grid">
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23fff8f4' width='400' height='300'/><rect x='150' y='60' width='100' height='160' rx='12' fill='%23fff0e0' stroke='%231b5e20' stroke-width='3'/><text x='200' y='200' font-size='16' fill='%231b5e20' text-anchor='middle'>Neem Oil</text></svg>" alt="Neem Oil"/></div>
+            <div class="product-info"><div class="product-name">Neem Oil</div><div style="font-size:0.85rem; color:#666;">Natural insecticide | 1 L</div><div class="product-price">280</div><div class="product-buttons"><div style="flex:1"><button class="btn-buy" onclick="buyNow('Neem Oil',280)">💳 Buy Now</button></div><div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Neem Oil')">📱 Contact</button></div></div></div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23fff0f8' width='400' height='300'/><rect x='150' y='60' width='100' height='160' rx='12' fill='%23ffe6f0' stroke='%231b5e20' stroke-width='3'/><text x='200' y='200' font-size='16' fill='%231b5e20' text-anchor='middle'>Spinosad</text></svg>" alt="Spinosad"/></div>
+            <div class="product-info"><div class="product-name">Spinosad 5%</div><div style="font-size:0.85rem; color:#666;">Organic pesticide | 250 ml</div><div class="product-price">450</div><div class="product-buttons"><div style="flex:1"><button class="btn-buy" onclick="buyNow('Spinosad',450)">💳 Buy Now</button></div><div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Spinosad')">📱 Contact</button></div></div></div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23fff7e6' width='400' height='300'/><rect x='150' y='60' width='100' height='160' rx='12' fill='%23fff6e6' stroke='%231b5e20' stroke-width='3'/><text x='200' y='200' font-size='14' fill='%231b5e20' text-anchor='middle'>Hexaconazole</text></svg>" alt="Hexaconazole"/></div>
+            <div class="product-info"><div class="product-name">Hexaconazole</div><div style="font-size:0.85rem; color:#666;">Fungicide | 250 ml</div><div class="product-price">520</div><div class="product-buttons"><div style="flex:1"><button class="btn-buy" onclick="buyNow('Hexaconazole',520)">💳 Buy Now</button></div><div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Hexaconazole')">📱 Contact</button></div></div></div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect fill='%23f0fff8' width='400' height='300'/><rect x='150' y='60' width='100' height='160' rx='12' fill='%23e8fff0' stroke='%231b5e20' stroke-width='3'/><text x='200' y='200' font-size='14' fill='%231b5e20' text-anchor='middle'>Emamectin</text></svg>" alt="Emamectin"/></div>
+            <div class="product-info"><div class="product-name">Emamectin</div><div style="font-size:0.85rem; color:#666;">Bio-insecticide | 50 g</div><div class="product-price">380</div><div class="product-buttons"><div style="flex:1"><button class="btn-buy" onclick="buyNow('Emamectin',380)">💳 Buy Now</button></div><div style="width:120px;" class="right-actions"><button class="btn-secondary" onclick="contactSeller('Emamectin')">📱 Contact</button></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px; text-align:center;">
+        <small style="color:#666;">✅ Free delivery on orders above ₹500 | Contact seller for bulk discounts</small>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:12px;">
+        <div aria-hidden="true" style="width:92px;height:92px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+          <svg width="88" height="88" viewBox="0 0 88 88" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Atharva Agro features logo">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#ffd54f"/>
+                <stop offset="1" stop-color="#ff8a65"/>
+              </linearGradient>
+              <linearGradient id="g2" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#c8e6c9"/>
+                <stop offset="1" stop-color="#66bb6a"/>
+              </linearGradient>
+            </defs>
+            <circle cx="44" cy="44" r="42" fill="#f1f8f3" stroke="#e6f4ea" stroke-width="1"/>
+            <g transform="translate(14,8) scale(0.9)">
+              <path d="M28 6c-6 6-6 12-6 16s-6 6-6 6" stroke="url(#g1)" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+              <g stroke="url(#g1)" stroke-width="2.4" stroke-linecap="round">
+                <path d="M20 8 l8 4" />
+                <path d="M18 14 l9 3" />
+                <path d="M16 20 l9 3" />
+                <path d="M22 26 l8 4" />
+              </g>
+            </g>
+            <path d="M56 22c8 6 10 18 4 26-6 8-16 10-24 6 6-6 10-14 8-22-2-8 6-16 12-10z" fill="url(#g2)" opacity="0.98" transform="translate(-4,0)"/>
+            <polygon points="66,12 68,18 74,18 69,22 71,28 66,24 61,28 63,22 58,18 64,18" fill="#fff8e1" opacity="0.95" transform="scale(0.7) translate(12,0)"/>
+            <circle cx="44" cy="44" r="41" fill="none" stroke="#e0f2e9" stroke-width="0.6"/>
+          </svg>
+        </div>
+        <div style="flex:1;min-width:220px;">
+          <h3 style="color:#333;margin:0 0 6px 0;font-size:1.05rem;display:flex;align-items:center;gap:8px;">
+            ✨ All Features Available
+          </h3>
+          <p style="color:#666;margin:0;font-size:0.92rem;">Click any feature below to open detailed guidance and recommendations for farmers.</p>
+        </div>
+      </div>
+
+      <div class="feature-grid" style="margin-top:12px;">
+        <button class="feature-box" onclick="showFeatureInfo('buy-vegetables')">🛒 Buy Fruits & Vegetables</button>
+        <button class="feature-box" onclick="showFeatureInfo('buy-crops')">🌾 Buy Crops & Seeds</button>
+        <button class="feature-box" onclick="showFeatureInfo('buy-fertilizers')">🧪 Buy Fertilizers</button>
+        <button class="feature-box" onclick="showFeatureInfo('buy-pesticides')">🛡️ Buy Pesticides</button>
+        <button class="feature-box" onclick="showFeatureInfo('crop-scanner')">📷 AI Crop Scanner</button>
+        <button class="feature-box" onclick="showFeatureInfo('soil-testing')">🧪 Soil pH Testing</button>
+        <button class="feature-box" onclick="showFeatureInfo('ai-advisor')">🤖 AI Farm Advisor</button>
+        <button class="feature-box" onclick="showFeatureInfo('farm-management')">📊 Farm Management</button>
+        <button class="feature-box" onclick="showFeatureInfo('offline')">💾 Works Offline</button>
+        <button class="feature-box" onclick="showFeatureInfo('secure')">🔒 100% Secure</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="authTitle">Login / Sign Up</h2>
+        <button class="modal-close" onclick="closeAuthModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="auth-tabs">
+          <button class="auth-tab active" onclick="switchAuthTab('login')">👨‍🌾 Farmer</button>
+          <button class="auth-tab" onclick="switchAuthTab('seller')">🏪 Seller</button>
+        </div>
+
+        <!-- Login Form -->
+        <div id="login-form">
+          <h3 style="color:#1b5e20; margin-bottom:15px;">Farmer Login</h3>
+          <div class="form-group">
+            <label>Email or Phone</label>
+            <input type="text" id="loginEmail" placeholder="your@email.com or 9876543210" />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter your password" />
+          </div>
+          <button class="btn" onclick="handleLogin('farmer')" style="width:100%; margin-bottom:10px;">Login</button>
+          <p style="text-align:center; color:#666; font-size:0.9rem;">Don't have an account? <a href="#" onclick="switchAuthForm('signup-form')" style="color:#1b5e20; font-weight:700;">Sign Up</a></p>
+        </div>
+
+        <!-- Sign Up Form (initially hidden) -->
+        <div id="signup-form" style="display:none;">
+          <h3 style="color:#1b5e20; margin-bottom:15px;">Farmer Registration</h3>
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="signupName" placeholder="Your Full Name" />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="signupEmail" placeholder="your@email.com" />
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="signupPhone" placeholder="9876543210" />
+          </div>
+          <div class="form-group">
+            <label>Village / District</label>
+            <input type="text" id="signupLocation" placeholder="Your Location" />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="signupPassword" placeholder="Create a strong password" />
+          </div>
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" id="signupConfirmPassword" placeholder="Confirm password" />
+          </div>
+          <button class="btn" onclick="handleSignUp('farmer')" style="width:100%; margin-bottom:10px;">Sign Up</button>
+          <p style="text-align:center; color:#666; font-size:0.9rem;">Already have an account? <a href="#" onclick="switchAuthForm('login-form')" style="color:#1b5e20; font-weight:700;">Login</a></p>
+        </div>
+
+        <!-- Seller Login Form -->
+        <div id="seller-login-form" style="display:none;">
+          <h3 style="color:#1b5e20; margin-bottom:15px;">Seller Login</h3>
+          <div class="form-group">
+            <label>Shop Email or Phone</label>
+            <input type="text" id="sellerLoginEmail" placeholder="shop@email.com or 9876543210" />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="sellerLoginPassword" placeholder="Enter your password" />
+          </div>
+          <button class="btn" onclick="handleLogin('seller')" style="width:100%; margin-bottom:10px;">Login</button>
+          <p style="text-align:center; color:#666; font-size:0.9rem;">Don't have an account? <a href="#" onclick="switchAuthForm('seller-signup-form')" style="color:#1b5e20; font-weight:700;">Sign Up</a></p>
+        </div>
+
+        <!-- Seller Sign Up Form -->
+        <div id="seller-signup-form" style="display:none;">
+          <h3 style="color:#1b5e20; margin-bottom:15px;">Seller Registration</h3>
+          <div class="form-group">
+            <label>Shop / Business Name</label>
+            <input type="text" id="sellerName" placeholder="Your Shop Name" />
+          </div>
+          <div class="form-group">
+            <label>Owner Name</label>
+            <input type="text" id="sellerOwner" placeholder="Owner Full Name" />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="sellerEmail" placeholder="shop@email.com" />
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="sellerPhone" placeholder="9876543210" />
+          </div>
+          <div class="form-group">
+            <label>Location / City</label>
+            <input type="text" id="sellerLocation" placeholder="Your Shop Location" />
+          </div>
+          <div class="form-group">
+            <label>Shop Type</label>
+            <select id="sellerType">
+              <option>Select Shop Type</option>
+              <option>Vegetable Seller</option>
+              <option>Fruit Seller</option>
+              <option>Fertilizer Dealer</option>
+              <option>Pesticide Dealer</option>
+              <option>General Store</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="sellerPassword" placeholder="Create a strong password" />
+          </div>
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" id="sellerConfirmPassword" placeholder="Confirm password" />
+          </div>
+          <button class="btn" onclick="handleSignUp('seller')" style="width:100%; margin-bottom:10px;">Sign Up</button>
+          <p style="text-align:center; color:#666; font-size:0.9rem;">Already have an account? <a href="#" onclick="switchAuthForm('seller-login-form')" style="color:#1b5e20; font-weight:700;">Login</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div id="cartModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🛒 Your Cart <span id="cartTotalLabel" class="small" style="font-weight:600; margin-left:10px;"></span></h2>
+        <button class="modal-close" onclick="closeCart()">✕</button>
+      </div>
+      <div class="modal-body" id="cartBody">
+        <table class="cart-list" id="cartTable">
+          <thead><tr><th>Item</th><th>Qty</th><th>Price</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
+          <div id="cartSummary" style="font-weight:800; color:#1b5e20;"></div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn-secondary" onclick="clearCart()">Clear</button>
+            <button class="btn" onclick="checkout()">Checkout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature Info Modal -->
+  <div id="featureModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Feature Information</h2>
+        <button class="modal-close" onclick="closeFeatureModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        Content here...
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div>
+        <h3>🌾 About</h3>
+        <p>AI-powered smart farming marketplace for Indian farmers</p>
+      </div>
+      <div>
+        <h3>📱 Availability</h3>
+        <p>Works on all devices: iOS, Android, Windows, Mac, Linux</p>
+      </div>
+      <div>
+        <h3>📞 Support</h3>
+        <p>support@atharvaagro.com</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:15px;color:#ccc;font-size:0.85rem;">© 2026 ATHARVA AGRO - Smart Farming Platform</div>
+  </footer>
+
+  <script>
+    // Feature Info
+    const featureInfo = {
+      "buy-vegetables": {
+        title: "🛒 Buy Fruits & Vegetables",
+        content: `<p>Find local, fresh fruits & vegetables with seller contact and bulk pricing. Tips:</p><ul><li>Check ripeness, smell and firmness before buying.</li><li>For bulk orders ask the seller about harvest date and storage.</li><li>Use the Contact button to request delivery time and bulk discounts.</li></ul><h3>Smallholders</h3><p>List produce in small lots to reach local consumers quickly.</p>`
+      },
+      "buy-crops": {
+        title: "🌾 Buy Crops & Seeds",
+        content: `<p>Bulk grain, seeds and planting material. When buying seeds, verify variety, purity and germination rate.</p><ul><li>Ask for certified seed source and expected yield.</li><li>Store seeds in a cool, dry place and follow recommended sowing windows.</li></ul><h3>Seed Handling</h3><p>Label seed bags with variety and date; perform a small germination test before sowing large areas.</p>`
+      },
+      "buy-fertilizers": {
+        title: "🧪 Buy Fertilizers",
+        content: `<p>We list common fertilizers (Urea, DAP, Potash, Organic Compost). Use soil test recommendations to pick the right mix.</p><h3>General guidance</h3><ul><li>Nitrogen (Urea) for leafy growth; apply in split doses during vegetative stage.</li><li>Phosphorus (DAP) for root and early growth; apply at planting.</li><li>Potassium (KCl) for fruits and stress tolerance; apply during reproductive stages.</li></ul><p>Follow label rates; avoid over-application.</p>`
+      },
+      "buy-pesticides": {
+        title: "🛡️ Buy Pesticides",
+        content: `<p>We list botanical and synthetic options. Choose pesticides based on pest/disease ID.</p><ul><li><strong>Neem Oil</strong> — botanical insecticide</li><li><strong>Spinosad</strong> — effective against leaf-eating insects</li><li><strong>Hexaconazole</strong> — fungicide for fungal diseases</li><li><strong>Emamectin</strong> — bio-insecticide for caterpillars</li></ul><p>Always wear PPE and respect pre-harvest intervals.</p>`
+      },
+      "crop-scanner": {
+        title: "📷 AI Crop Scanner",
+        content: `<p>Use the camera scanner to capture leaf or plant images for quick AI-based suggestions.</p><ul><li>Point camera at affected leaves, ensure good lighting.</li><li>After capture press Analyze to get likely issues and actions.</li><li>AI gives probable causes, not laboratory confirmation.</li></ul>`
+      },
+      "soil-testing": {
+        title: "🧪 Soil pH Testing",
+        content: `<p>Enter measured soil pH and crop to get simple advisory.</p><ul><li><strong>pH &lt; 6.0 (Acidic)</strong>: Apply agricultural lime</li><li><strong>pH 6.0–7.5 (Neutral)</strong>: Ideal range for most crops</li><li><strong>pH &gt; 7.5 (Alkaline)</strong>: Apply sulfur or acidifying matter</li></ul><p>For accurate fertilizer plans use a full soil test.</p>`
+      },
+      "ai-advisor": {
+        title: "🤖 AI Farm Advisor",
+        content: `<p>Get crop-specific tips based on crop, growth stage and issues.</p><ul><li>Includes irrigation timing, nutrient splits, pest watch</li><li>Combine with your observations and local weather data</li></ul>`
+      },
+      "farm-management": {
+        title: "📊 Farm Management",
+        content: `<p>Register farm details and track fields, sizes and soil type.</p><ul><li>Keep records of plantings, inputs and yields</li><li>Plan fertilizer and irrigation schedules</li><li>Share field data with agronomists or buyers</li></ul>`
+      },
+      "offline": {
+        title: "💾 Works Offline",
+        content: `<p>Basic features work offline after first load.</p><ul><li>Viewing product lists and farm registration available</li><li>Camera scanning requires live device access</li><li>Cart data stored locally</li></ul>`
+      },
+      "secure": {
+        title: "🔒 100% Secure",
+        content: `<p>Data stored locally in your browser.</p><ul><li>Use HTTPS for production deployments</li><li>Server-side storage with encryption recommended</li><li>Replace checkout with secure payment gateway</li></ul>`
+      }
+    };
+
+    function showFeatureInfo(featureId) {
+      const feature = featureInfo[featureId];
+      if(feature) {
+        document.getElementById('modalTitle').textContent = feature.title;
+        document.getElementById('modalBody').innerHTML = feature.content;
+        document.getElementById('featureModal').classList.add('active');
+      }
+    }
+    function closeFeatureModal() { document.getElementById('featureModal').classList.remove('active'); }
+
+    // Auth Functions
+    function openAuthModal(type) {
+      document.getElementById('authModal').classList.add('active');
+      if(type === 'signup') {
+        switchAuthForm('signup-form');
+        document.querySelector('.auth-tab.active').classList.remove('active');
+        document.querySelectorAll('.auth-tab')[0].classList.add('active');
+      }
+    }
+    function closeAuthModal() { document.getElementById('authModal').classList.remove('active'); }
+
+    function switchAuthTab(tab) {
+      document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      if(tab === 'login') {
+        document.getElementById('login-form').style.display = 'block';
+        document.getElementById('signup-form').style.display = 'none';
+        document.getElementById('seller-login-form').style.display = 'none';
+        document.getElementById('seller-signup-form').style.display = 'none';
+        document.getElementById('authTitle').textContent = 'Farmer Login / Sign Up';
+      } else {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('signup-form').style.display = 'none';
+        document.getElementById('seller-login-form').style.display = 'block';
+        document.getElementById('seller-signup-form').style.display = 'none';
+        document.getElementById('authTitle').textContent = 'Seller Login / Sign Up';
+      }
+    }
+
+    function switchAuthForm(formId) {
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('signup-form').style.display = 'none';
+      document.getElementById('seller-login-form').style.display = 'none';
+      document.getElementById('seller-signup-form').style.display = 'none';
+      document.getElementById(formId).style.display = 'block';
+    }
+
+    function handleLogin(type) {
+      if(type === 'farmer') {
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+        if(!email || !password) { alert('Please fill all fields'); return; }
+        alert(`✅ Farmer login successful!\nEmail/Phone: ${email}`);
+        closeAuthModal();
+      } else {
+        const email = document.getElementById('sellerLoginEmail').value.trim();
+        const password = document.getElementById('sellerLoginPassword').value.trim();
+        if(!email || !password) { alert('Please fill all fields'); return; }
+        alert(`✅ Seller login successful!\nEmail/Phone: ${email}`);
+        closeAuthModal();
+      }
+    }
+
+    function handleSignUp(type) {
+      if(type === 'farmer') {
+        const name = document.getElementById('signupName').value.trim();
+        const email = document.getElementById('signupEmail').value.trim();
+        const phone = document.getElementById('signupPhone').value.trim();
+        const password = document.getElementById('signupPassword').value.trim();
+        const confirm = document.getElementById('signupConfirmPassword').value.trim();
+        
+        if(!name || !email || !phone || !password || !confirm) {
+          alert('Please fill all fields'); return;
+        }
+        if(password !== confirm) { alert('Passwords do not match'); return; }
+        
+        alert(`✅ Farmer account created successfully!\nName: ${name}\nEmail: ${email}\nPhone: ${phone}`);
+        closeAuthModal();
+      } else {
+        const shopName = document.getElementById('sellerName').value.trim();
+        const owner = document.getElementById('sellerOwner').value.trim();
+        const email = document.getElementById('sellerEmail').value.trim();
+        const phone = document.getElementById('sellerPhone').value.trim();
+        const password = document.getElementById('sellerPassword').value.trim();
+        const confirm = document.getElementById('sellerConfirmPassword').value.trim();
+        
+        if(!shopName || !owner || !email || !phone || !password || !confirm) {
+          alert('Please fill all fields'); return;
+        }
+        if(password !== confirm) { alert('Passwords do not match'); return; }
+        
+        alert(`✅ Seller account created successfully!\nShop: ${shopName}\nOwner: ${owner}\nEmail: ${email}`);
+        closeAuthModal();
+      }
+    }
+
+    // Cart Implementation
+    let cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+
+    function saveCart() {
+      sessionStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    function updateCartBadge() {
+      const count = cart.reduce((s,i)=>s+i.qty,0);
+      document.getElementById('cartCount').textContent = count;
+    }
+
+    function addToCart(name, price, qty = 1) {
+      const existing = cart.find(i => i.name === name);
+      if(existing) existing.qty += qty;
+      else cart.push({ name, price, qty });
+      saveCart();
+      updateCartBadge();
+      flashMessage(`${name} added to cart`);
+    }
+
+    function flashMessage(msg) {
+      const div = document.createElement('div');
+      div.textContent = msg;
+      div.style.position = 'fixed';
+      div.style.bottom = '18px';
+      div.style.left = '50%';
+      div.style.transform = 'translateX(-50%)';
+      div.style.background = '#1b5e20';
+      div.style.color = '#fff';
+      div.style.padding = '10px 16px';
+      div.style.borderRadius = '8px';
+      div.style.zIndex = 2000;
+      document.body.appendChild(div);
+      setTimeout(()=>{ div.style.opacity = '0'; setTimeout(()=>div.remove(),300); }, 1400);
+    }
+
+    function openCart() {
+      renderCart();
+      document.getElementById('cartModal').classList.add('active');
+    }
+    function closeCart() { document.getElementById('cartModal').classList.remove('active'); }
+
+    function renderCart() {
+      const tbody = document.querySelector('#cartTable tbody');
+      tbody.innerHTML = '';
+      let total = 0;
+      cart.forEach((item, idx) => {
+        const tr = document.createElement('tr');
+        const nameTd = document.createElement('td'); nameTd.textContent = item.name;
+        const qtyTd = document.createElement('td');
+        qtyTd.innerHTML = `<div class="cart-actions"><button onclick="changeQty(${idx}, -1)" class="btn-secondary">-</button><span style="padding:0 8px;">${item.qty}</span><button onclick="changeQty(${idx}, 1)" class="btn-secondary">+</button></div>`;
+        const priceTd = document.createElement('td'); priceTd.textContent = '₹' + (item.price * item.qty).toFixed(0);
+        const removeTd = document.createElement('td'); removeTd.innerHTML = `<button class="btn-secondary" onclick="removeItem(${idx})">Remove</button>`;
+        tr.appendChild(nameTd);
+        tr.appendChild(qtyTd);
+        tr.appendChild(priceTd);
+        tr.appendChild(removeTd);
+        tbody.appendChild(tr);
+        total += item.price * item.qty;
+      });
+      document.getElementById('cartSummary').textContent = `Total: ₹${total.toFixed(0)}`;
+      document.getElementById('cartTotalLabel').textContent = `(${cart.length} items)`;
+      updateCartBadge();
+    }
+
+    function changeQty(index, delta) {
+      if(!cart[index]) return;
+      cart[index].qty += delta;
+      if(cart[index].qty <= 0) cart.splice(index,1);
+      saveCart();
+      renderCart();
+    }
+
+    function removeItem(index) {
+      cart.splice(index,1);
+      saveCart();
+      renderCart();
+    }
+
+    function clearCart() {
+      if(!confirm('Clear cart?')) return;
+      cart = [];
+      saveCart();
+      renderCart();
+      closeCart();
+    }
+
+    function checkout() {
+      if(cart.length === 0) { alert('Cart empty'); return; }
+      const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+      alert(`Proceeding to checkout. Total: ₹${total.toFixed(0)}\n\n(Checkout flow not integrated in this demo.)`);
+      cart = [];
+      saveCart();
+      renderCart();
+      closeCart();
+    }
+
+    function buyNow(product, price) {
+      addToCart(product, price, 1);
+      openCart();
+    }
+
+    function contactSeller(product) {
+      const phone = '+919876543210';
+      const message = `Hi! I'm interested in buying ${product}. Can you provide details & pricing?`;
+      const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+    }
+
+    function registerFarm() {
+      const name = document.getElementById('farmName').value.trim();
+      const loc = document.getElementById('farmLocation').value.trim();
+      if(!name || !loc) { alert('Fill all fields'); return; }
+      document.getElementById('farmStatus').textContent = '✅ Farm registered successfully!';
+      setTimeout(() => { document.getElementById('farmStatus').textContent = ''; }, 3000);
+    }
+
+    async function startCameraStream() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+        document.getElementById('cameraVideo').srcObject = stream;
+        document.getElementById('cameraContainer').style.display = 'block';
+      } catch(err) {
+        alert('❌ Camera access denied');
+      }
+    }
+
+    function stopCameraStream() {
+      const video = document.getElementById('cameraVideo');
+      if(video.srcObject) video.srcObject.getTracks().forEach(t => t.stop());
+      document.getElementById('cameraContainer').style.display = 'none';
+    }
+
+    function capturePhotoFromCamera() {
+      const video = document.getElementById('cameraVideo');
+      const canvas = document.getElementById('captureCanvas');
+      if(!video || !canvas) return;
+      const ctx = canvas.getContext('2d');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0);
+      document.getElementById('capturedImage').src = canvas.toDataURL('image/jpeg');
+      document.getElementById('capturedImageContainer').style.display = 'block';
+      stopCameraStream();
+    }
+
+    function discardImage() {
+      document.getElementById('capturedImageContainer').style.display = 'none';
+    }
+
+    function analyzeCapturedImage() {
+      const result = ['🍃 Leaf Rust detected - Use Hexaconazole', '🦗 Pest damage found - Spray Neem Oil', '💚 Plant is healthy!'][Math.floor(Math.random() * 3)];
+      document.getElementById('cameraAnalysisResult').innerHTML = `<div style="background:#e3f2fd; padding:12px; border-radius:8px; border-left:4px solid #1976d2; color:#1976d2; font-weight:700;">🤖 ${result}</div>`;
+    }
+
+    function scanCropWithAI() {
+      const crop = document.getElementById('aiCropSelect').value;
+      if(crop === 'Select Crop') { alert('Select a crop'); return; }
+      document.getElementById('aiScanResult').innerHTML = `<div style="background:#e8f5e9; padding:12px; border-radius:8px; border-left:4px solid #4caf50; color:#1b5e20; font-weight:700;">✅ ${crop} is in good condition. Continue regular watering & fertilization.</div>`;
+    }
+
+    function soilTestRecommend() {
+      const ph = parseFloat(document.getElementById('soilPH').value);
+      if(isNaN(ph)) { alert('Enter pH value'); return; }
+      const rec = ph < 6 ? 'Acidic soil - Add lime' : ph > 7.5 ? 'Alkaline soil - Add sulfur' : '✅ Perfect soil pH!';
+      document.getElementById('soilRecommendation').innerHTML = `<div style="background:#e8f5e9; padding:12px; border-radius:8px; border-left:4px solid #4caf50; color:#1b5e20; font-weight:700;">🧪 ${rec}</div>`;
+    }
+
+    function switchFarmTab(ev, tabId) {
+      document.querySelectorAll('.farm-tab').forEach(t => t.style.display = 'none');
+      document.querySelectorAll('.horizontal-tabs button').forEach(b => b.classList.remove('active'));
+      document.getElementById(tabId).style.display = 'block';
+      if(ev && ev.currentTarget) ev.currentTarget.classList.add('active');
+    }
+
+    function showMarket(id, btn) {
+      document.querySelectorAll('.market-grid').forEach(g => g.classList.remove('active'));
+      document.querySelectorAll('#market .tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      if(btn) btn.classList.add('active');
+    }
+
+    document.addEventListener('click', function(event) {
+      const modal = document.getElementById('featureModal');
+      if(event.target === modal) closeFeatureModal();
+      const authModal = document.getElementById('authModal');
+      if(event.target === authModal) closeAuthModal();
+      const cartModal = document.getElementById('cartModal');
+      if(event.target === cartModal) closeCart();
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      updateCartBadge();
+    });
+
+  </script>
+</body>
+</html>
+<
+
+  
